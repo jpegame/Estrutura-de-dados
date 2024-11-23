@@ -15,9 +15,18 @@ def main():
     num_questoes = int(input("Digite o número de questões: "))
     
     lista_numeros = [i for i in range(1, num_questoes + 1)]
-    for _ in range(num_pessoas):
-        sample_size = (num_questoes // num_pessoas) + (1 if num_questoes % num_pessoas > 0 else 0)
-        sample, lista_numeros = get_sample(lista_numeros, sample_size)
+    min_questoes = num_questoes // num_pessoas
+    questoes_por_pessoa = [min_questoes] * num_pessoas
+    questoes_restantes = num_questoes - sum(questoes_por_pessoa)
+
+    i = 0
+    while questoes_restantes > 0:
+        questoes_por_pessoa[i] += 1
+        questoes_restantes -= 1
+        i = (i + 1) % num_pessoas
+        
+    for num_questoes_pessoa in questoes_por_pessoa:
+        sample, lista_numeros = get_sample(lista_numeros, num_questoes_pessoa)
         print(sample)
-    
+
 main()
